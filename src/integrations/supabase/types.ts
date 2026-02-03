@@ -14,6 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
+      keys: {
+        Row: {
+          bg_class: string
+          border_class: string
+          color_class: string
+          created_at: string
+          desc_ar: string
+          desc_en: string
+          id: string
+          is_active: boolean
+          key: string
+          name_ar: string
+          name_en: string
+          price: number
+          rarity_ar: string
+          rarity_en: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          bg_class: string
+          border_class: string
+          color_class: string
+          created_at?: string
+          desc_ar: string
+          desc_en: string
+          id?: string
+          is_active?: boolean
+          key: string
+          name_ar: string
+          name_en: string
+          price: number
+          rarity_ar: string
+          rarity_en: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          bg_class?: string
+          border_class?: string
+          color_class?: string
+          created_at?: string
+          desc_ar?: string
+          desc_en?: string
+          id?: string
+          is_active?: boolean
+          key?: string
+          name_ar?: string
+          name_en?: string
+          price?: number
+          rarity_ar?: string
+          rarity_en?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      mods: {
+        Row: {
+          created_at: string
+          description_ar: string | null
+          description_en: string | null
+          download_url: string
+          id: string
+          image_url: string | null
+          is_active: boolean
+          minecraft_version: string | null
+          name_ar: string
+          name_en: string
+          sort_order: number
+          updated_at: string
+          version: string | null
+        }
+        Insert: {
+          created_at?: string
+          description_ar?: string | null
+          description_en?: string | null
+          download_url: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          minecraft_version?: string | null
+          name_ar: string
+          name_en: string
+          sort_order?: number
+          updated_at?: string
+          version?: string | null
+        }
+        Update: {
+          created_at?: string
+          description_ar?: string | null
+          description_en?: string | null
+          download_url?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          minecraft_version?: string | null
+          name_ar?: string
+          name_en?: string
+          sort_order?: number
+          updated_at?: string
+          version?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -41,6 +146,66 @@ export type Database = {
           minecraft_username?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      ranks: {
+        Row: {
+          bg_class: string
+          border_class: string
+          color_class: string
+          created_at: string
+          desc_ar: string
+          desc_en: string
+          icon: string
+          id: string
+          is_active: boolean
+          key: string
+          name_ar: string
+          name_en: string
+          price: number
+          reward_ar: string
+          reward_en: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          bg_class: string
+          border_class: string
+          color_class: string
+          created_at?: string
+          desc_ar: string
+          desc_en: string
+          icon?: string
+          id?: string
+          is_active?: boolean
+          key: string
+          name_ar: string
+          name_en: string
+          price: number
+          reward_ar: string
+          reward_en: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          bg_class?: string
+          border_class?: string
+          color_class?: string
+          created_at?: string
+          desc_ar?: string
+          desc_en?: string
+          icon?: string
+          id?: string
+          is_active?: boolean
+          key?: string
+          name_ar?: string
+          name_en?: string
+          price?: number
+          reward_ar?: string
+          reward_en?: string
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }

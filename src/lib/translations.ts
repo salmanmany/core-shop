@@ -6,6 +6,7 @@ export const translations = {
     home: { ar: 'الرئيسية', en: 'Home' },
     ranks: { ar: 'الرتب', en: 'Ranks' },
     keys: { ar: 'المفاتيح', en: 'Keys' },
+    mods: { ar: 'المودات', en: 'Mods' },
     contact: { ar: 'التواصل', en: 'Contact' },
     login: { ar: 'تسجيل الدخول', en: 'Login' },
     logout: { ar: 'تسجيل الخروج', en: 'Logout' },
@@ -74,6 +75,15 @@ export const translations = {
       comingSoon: { ar: 'قريباً', en: 'Coming Soon' },
     },
     copied: { ar: 'تم النسخ بنجاح', en: 'Copied successfully' },
+  },
+
+  // Mods Section
+  mods: {
+    title: { ar: 'المودات', en: 'Mods' },
+    titleAccent: { ar: 'المميزة', en: 'Featured' },
+    subtitle: { ar: 'حمّل أفضل المودات لتحسين تجربة اللعب', en: 'Download the best mods to enhance your gameplay' },
+    download: { ar: 'تحميل', en: 'Download' },
+    noMods: { ar: 'لا توجد مودات حالياً', en: 'No mods available yet' },
   },
   
   // FAQ
