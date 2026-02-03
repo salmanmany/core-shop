@@ -133,6 +133,8 @@ export const translations = {
     backToStore: { ar: 'العودة للمتجر بدون تسجيل', en: 'Back to store without login' },
     welcomeMessage: { ar: 'مرحباً بك', en: 'Welcome' },
     wrongPassword: { ar: 'كلمة المرور غير صحيحة', en: 'Wrong password' },
+    orContinueWith: { ar: 'أو تابع باستخدام', en: 'Or continue with' },
+    googleSignIn: { ar: 'تسجيل الدخول بـ Google', en: 'Sign in with Google' },
   },
   
   // Ranks Data
