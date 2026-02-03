@@ -51,9 +51,9 @@ export function Contact() {
     <section id="contact" className="py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Section Header */}
-        <div className={`text-center mb-8 ${language === 'ar' ? 'text-right md:text-center' : ''}`}>
+        <div className={`text-center mb-8 animate-fade-in-down ${language === 'ar' ? 'text-right md:text-center' : ''}`}>
           <h2 className="text-2xl sm:text-3xl font-bold mb-2">
-            {t('contact.title')} <span className="text-primary">{t('contact.titleAccent')}</span>
+            {t('contact.title')} <span className="text-primary animate-glow-pulse inline-block">{t('contact.titleAccent')}</span>
           </h2>
         </div>
 
@@ -61,19 +61,20 @@ export function Contact() {
         <div className="grid grid-cols-2 gap-4 mb-10">
           {/* Discord */}
           <div 
-            className="glass-card p-4 border-s-4 border-s-discord hover:border-s-discord/80 cursor-pointer group"
+            className="glass-card p-4 border-s-4 border-s-discord hover:border-s-discord/80 cursor-pointer group animate-scale-bounce"
+            style={{ animationDelay: '0ms' }}
             onClick={() => copyToClipboard('king_salman1')}
             onMouseEnter={() => playSound('hover')}
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-discord/20 flex items-center justify-center shrink-0">
-                <DiscordIcon className="w-5 h-5 text-discord" />
+                <DiscordIcon className="w-5 h-5 text-discord group-hover:animate-wiggle" />
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="text-sm font-bold">{t('contact.discord.title')}</h3>
                 <p className="font-mono text-xs truncate">king_salman1</p>
               </div>
-              <CopyIcon className="w-4 h-4 text-muted-foreground group-hover:text-discord transition-colors shrink-0" />
+              <CopyIcon className="w-4 h-4 text-muted-foreground group-hover:text-discord transition-colors shrink-0 group-hover:animate-bounce" />
             </div>
           </div>
 
@@ -84,11 +85,12 @@ export function Contact() {
             rel="noopener noreferrer"
             onClick={() => playSound('click')}
             onMouseEnter={() => playSound('hover')}
-            className="glass-card p-4 border-s-4 border-s-whatsapp hover:border-s-whatsapp/80 group"
+            className="glass-card p-4 border-s-4 border-s-whatsapp hover:border-s-whatsapp/80 group animate-scale-bounce"
+            style={{ animationDelay: '100ms' }}
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-whatsapp/20 flex items-center justify-center shrink-0">
-                <WhatsAppIcon className="w-5 h-5 text-whatsapp" />
+                <WhatsAppIcon className="w-5 h-5 text-whatsapp group-hover:animate-wiggle" />
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="text-sm font-bold">{t('contact.whatsapp.title')}</h3>
@@ -102,11 +104,12 @@ export function Contact() {
             href={getEmailUrl()}
             onClick={() => playSound('click')}
             onMouseEnter={() => playSound('hover')}
-            className="glass-card p-4 border-s-4 border-s-gmail hover:border-s-gmail/80 group"
+            className="glass-card p-4 border-s-4 border-s-gmail hover:border-s-gmail/80 group animate-scale-bounce"
+            style={{ animationDelay: '200ms' }}
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-gmail/20 flex items-center justify-center shrink-0">
-                <MailIcon className="w-5 h-5 text-gmail" />
+                <MailIcon className="w-5 h-5 text-gmail group-hover:animate-wiggle" />
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="text-sm font-bold">{t('contact.gmail.title')}</h3>
@@ -116,8 +119,11 @@ export function Contact() {
           </a>
 
           {/* Instagram */}
-          <div className="glass-card p-4 border-s-4 border-s-instagram/50 opacity-70 relative">
-            <span className="absolute top-2 end-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-instagram/20 text-instagram">
+          <div 
+            className="glass-card p-4 border-s-4 border-s-instagram/50 opacity-70 relative animate-scale-bounce"
+            style={{ animationDelay: '300ms' }}
+          >
+            <span className="absolute top-2 end-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-instagram/20 text-instagram animate-pulse">
               {t('contact.instagram.comingSoon')}
             </span>
             <div className="flex items-center gap-3">
@@ -133,7 +139,7 @@ export function Contact() {
         </div>
 
         {/* Payment Methods in Contact */}
-        <div className="glass-card p-4 mb-10 text-center">
+        <div className="glass-card p-4 mb-10 text-center animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <p className="text-sm text-muted-foreground mb-3">{t('keys.paymentMethods')}</p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <div className="h-9 w-16 bg-white rounded-lg flex items-center justify-center p-1.5 shadow-sm">
@@ -161,7 +167,7 @@ export function Contact() {
         </div>
 
         {/* FAQ Section - Compact */}
-        <div>
+        <div className="animate-fade-in-up" style={{ animationDelay: '500ms' }}>
           <h3 className="text-lg font-bold text-primary mb-4 text-center">
             {t('faq.title')}
           </h3>

@@ -17,7 +17,7 @@ export function Keys() {
     <section id="keys" className="py-20">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className={`text-center mb-12 ${language === 'ar' ? 'text-right md:text-center' : ''}`}>
+        <div className={`text-center mb-12 animate-fade-in-down ${language === 'ar' ? 'text-right md:text-center' : ''}`}>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             {t('keys.title')} <span className="text-primary">{t('keys.titleAccent')}</span>
           </h2>
@@ -28,8 +28,13 @@ export function Keys() {
 
         {/* Keys Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {keysConfig.map(keyItem => (
-            <div key={keyItem.key} className="key-card">
+          {keysConfig.map((keyItem, index) => (
+            <div 
+              key={keyItem.key} 
+              className="key-card animate-scale-bounce group"
+              style={{ animationDelay: `${index * 100}ms` }}
+              onMouseEnter={() => playSound('hover')}
+            >
               {/* Rarity Badge */}
               <div className={`absolute top-4 end-4 px-2 py-0.5 rounded-full text-xs font-semibold text-white ${keyItem.bgClass}`}>
                 {t(`keysData.${keyItem.key}.rarity`)}
@@ -37,11 +42,11 @@ export function Keys() {
 
               {/* Key Icon */}
               <div className={`w-14 h-14 rounded-xl ${keyItem.bgClass}/20 flex items-center justify-center mb-4`}>
-                <KeyIcon className={`w-8 h-8 ${keyItem.colorClass}`} />
+                <KeyIcon className={`w-8 h-8 ${keyItem.colorClass} group-hover:animate-wiggle`} />
               </div>
 
               {/* Name */}
-              <h3 className={`text-xl font-bold mb-1 ${keyItem.colorClass}`}>
+              <h3 className={`text-xl font-bold mb-1 ${keyItem.colorClass} group-hover:scale-105 transition-transform`}>
                 {t(`keysData.${keyItem.key}.name`)}
               </h3>
               <p className="text-xs text-muted-foreground mb-4">
@@ -62,9 +67,12 @@ export function Keys() {
 
               {/* Buy Button */}
               <button 
-                onClick={() => playSound('click')}
+                onClick={() => {
+                  playSound('xp');
+                  playSound('collect');
+                }}
                 onMouseEnter={() => playSound('hover')}
-                className={`w-full py-2.5 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${keyItem.bgClass}`}
+                className={`w-full py-2.5 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg group-hover:animate-glow-pulse ${keyItem.bgClass}`}
               >
                 {t('ranks.buyNow')}
               </button>
