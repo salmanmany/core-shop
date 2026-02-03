@@ -11,6 +11,34 @@ export const translations = {
     login: { ar: 'تسجيل الدخول', en: 'Login' },
     logout: { ar: 'تسجيل الخروج', en: 'Logout' },
     premiumShop: { ar: 'متجر فاخر', en: 'Premium Shop' },
+    admin: { ar: 'لوحة التحكم', en: 'Admin' },
+  },
+
+  // Cart
+  cart: {
+    title: { ar: 'سلة التسوق', en: 'Shopping Cart' },
+    empty: { ar: 'سلتك فارغة', en: 'Your cart is empty' },
+    total: { ar: 'المجموع', en: 'Total' },
+    clear: { ar: 'إفراغ', en: 'Clear' },
+    checkout: { ar: 'الدفع', en: 'Checkout' },
+    addedToCart: { ar: 'تمت الإضافة للسلة', en: 'Added to cart' },
+  },
+
+  // Admin
+  admin: {
+    title: { ar: 'لوحة التحكم', en: 'Admin Dashboard' },
+    ranks: { ar: 'إدارة الرتب', en: 'Manage Ranks' },
+    keys: { ar: 'إدارة المفاتيح', en: 'Manage Keys' },
+    mods: { ar: 'إدارة المودات', en: 'Manage Mods' },
+    add: { ar: 'إضافة', en: 'Add' },
+    edit: { ar: 'تعديل', en: 'Edit' },
+    delete: { ar: 'حذف', en: 'Delete' },
+    save: { ar: 'حفظ', en: 'Save' },
+    cancel: { ar: 'إلغاء', en: 'Cancel' },
+    confirmDelete: { ar: 'هل أنت متأكد من الحذف؟', en: 'Are you sure you want to delete?' },
+    noAccess: { ar: 'ليس لديك صلاحية', en: 'Access denied' },
+    saved: { ar: 'تم الحفظ بنجاح', en: 'Saved successfully' },
+    deleted: { ar: 'تم الحذف بنجاح', en: 'Deleted successfully' },
   },
   
   // Hero
