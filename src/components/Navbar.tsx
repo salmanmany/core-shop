@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import logo from '@/assets/logo.png';
 import {
   SunIcon,
@@ -14,17 +16,67 @@ import {
 } from '@/components/icons';
 
 interface NavbarProps {
-  onLoginClick: () => void;
+  onLoginClick?: () => void;
+}
+
+interface SupabaseUser {
+  id: string;
+  email: string | null;
+  avatar_url: string | null;
+  display_name: string | null;
 }
 
 export function Navbar({ onLoginClick }: NavbarProps) {
+  const navigate = useNavigate();
   const { t, language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const { user, logout, isLoggedIn } = useAuth();
+  const { user: localUser, logout: localLogout, isLoggedIn: isLocalLoggedIn } = useAuth();
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  // Supabase auth state
+  const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
+  const [isSupabaseLoggedIn, setIsSupabaseLoggedIn] = useState(false);
+
+  // Check Supabase auth on mount
+  useEffect(() => {
+    const checkSupabaseAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setIsSupabaseLoggedIn(true);
+        setSupabaseUser({
+          id: session.user.id,
+          email: session.user.email || null,
+          avatar_url: session.user.user_metadata?.avatar_url || null,
+          display_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || null,
+        });
+      }
+    };
+    
+    checkSupabaseAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setIsSupabaseLoggedIn(true);
+        setSupabaseUser({
+          id: session.user.id,
+          email: session.user.email || null,
+          avatar_url: session.user.user_metadata?.avatar_url || null,
+          display_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || null,
+        });
+      } else {
+        setIsSupabaseLoggedIn(false);
+        setSupabaseUser(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Determine if logged in (either localStorage or Supabase)
+  const isLoggedIn = isLocalLoggedIn || isSupabaseLoggedIn;
 
   const navLinks = [
     { id: 'home', label: t('nav.home') },
@@ -137,18 +189,26 @@ export function Navbar({ onLoginClick }: NavbarProps) {
             </button>
 
             {/* User / Login */}
-            {isLoggedIn && user ? (
+            {isLoggedIn ? (
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className="flex items-center gap-2 p-1 rounded-lg hover:bg-secondary transition-colors"
                 >
                   <img
-                    src={user.skinUrl}
-                    alt={user.username}
+                    src={isSupabaseLoggedIn 
+                      ? (supabaseUser?.avatar_url || 'https://mc-heads.net/avatar/Steve/100')
+                      : localUser?.skinUrl || 'https://mc-heads.net/avatar/Steve/100'
+                    }
+                    alt="Avatar"
                     className="w-9 h-9 rounded-full skin-preview"
                   />
-                  <span className="hidden sm:inline font-medium">{user.username}</span>
+                  <span className="hidden sm:inline font-medium">
+                    {isSupabaseLoggedIn 
+                      ? (supabaseUser?.display_name || supabaseUser?.email?.split('@')[0])
+                      : localUser?.username
+                    }
+                  </span>
                   <ChevronDownIcon className={`w-4 h-4 transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -156,19 +216,50 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                   <div className="absolute top-full mt-2 end-0 glass-card p-4 min-w-[200px] animate-fade-in">
                     <div className="flex flex-col items-center gap-3">
                       <img
-                        src={user.skinUrl}
-                        alt={user.username}
+                        src={isSupabaseLoggedIn 
+                          ? (supabaseUser?.avatar_url || 'https://mc-heads.net/avatar/Steve/100')
+                          : localUser?.skinUrl || 'https://mc-heads.net/avatar/Steve/100'
+                        }
+                        alt="Avatar"
                         className="w-16 h-16 rounded-xl skin-preview"
                       />
                       <div className="text-center">
-                        <p className="font-bold">{user.username}</p>
-                        <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-primary/20 text-primary rounded-full">
-                          {user.accountType}
-                        </span>
+                        <p className="font-bold">
+                          {isSupabaseLoggedIn 
+                            ? (supabaseUser?.display_name || supabaseUser?.email?.split('@')[0])
+                            : localUser?.username
+                          }
+                        </p>
+                        {isSupabaseLoggedIn && supabaseUser?.email && (
+                          <p className="text-xs text-muted-foreground">{supabaseUser.email}</p>
+                        )}
+                        {!isSupabaseLoggedIn && localUser?.accountType && (
+                          <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-primary/20 text-primary rounded-full">
+                            {localUser.accountType}
+                          </span>
+                        )}
                       </div>
+                      
+                      {/* Profile Link */}
+                      {isSupabaseLoggedIn && (
+                        <button
+                          onClick={() => {
+                            navigate('/profile');
+                            setUserDropdownOpen(false);
+                          }}
+                          className="w-full p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-center"
+                        >
+                          {t('profile.title')}
+                        </button>
+                      )}
+                      
                       <button
-                        onClick={() => {
-                          logout();
+                        onClick={async () => {
+                          if (isSupabaseLoggedIn) {
+                            await supabase.auth.signOut();
+                          } else {
+                            localLogout();
+                          }
                           setUserDropdownOpen(false);
                         }}
                         className="w-full flex items-center justify-center gap-2 p-2 rounded-lg bg-destructive/20 text-destructive hover:bg-destructive/30 transition-colors"
