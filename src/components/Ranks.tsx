@@ -1,4 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSound } from '@/hooks/useSound';
 import {
   ShieldIcon,
   GemIcon,
@@ -27,12 +28,13 @@ const ranksConfig = [
 
 export function Ranks() {
   const { t, language } = useLanguage();
+  const { playSound } = useSound();
 
   return (
     <section id="ranks" className="py-20">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className={`text-center mb-12 ${language === 'ar' ? 'text-right md:text-center' : ''}`}>
+        <div className={`text-center mb-12 animate-fade-in-down ${language === 'ar' ? 'text-right md:text-center' : ''}`}>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             {t('ranks.title')} <span className="text-primary">{t('ranks.titleAccent')}</span>
           </h2>
@@ -43,19 +45,21 @@ export function Ranks() {
 
         {/* Ranks Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ranksConfig.map(rank => {
+          {ranksConfig.map((rank, index) => {
             const IconComponent = rankIcons[rank.key as keyof typeof rankIcons];
             return (
               <div
                 key={rank.key}
-                className={`rank-card hover:border-${rank.key === 'vipPlus' ? 'vip-plus' : rank.key}`}
+                className={`rank-card hover:border-${rank.key === 'vipPlus' ? 'vip-plus' : rank.key} animate-scale-bounce group`}
                 style={{
-                  ['--hover-glow' as string]: `var(--${rank.key})`
+                  ['--hover-glow' as string]: `var(--${rank.key})`,
+                  animationDelay: `${index * 100}ms`
                 }}
+                onMouseEnter={() => playSound('hover')}
               >
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-4">
-                  <IconComponent className={`w-8 h-8 ${rank.colorClass}`} />
+                  <IconComponent className={`w-8 h-8 ${rank.colorClass} group-hover:animate-wiggle transition-transform`} />
                   <h3 className={`text-2xl font-bold ${rank.colorClass}`}>
                     {t(`ranksData.${rank.key}.name`)}
                   </h3>
@@ -63,12 +67,12 @@ export function Ranks() {
 
                 {/* Price */}
                 <div className="mb-4">
-                  <span className="text-3xl font-bold text-primary">${rank.price}</span>
+                  <span className="text-3xl font-bold text-primary group-hover:animate-pulse">${rank.price}</span>
                   <p className="text-sm text-muted-foreground">{t('ranks.finalPrice')}</p>
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-border my-4" />
+                <div className="border-t border-border my-4 group-hover:border-primary/50 transition-colors" />
 
                 {/* Perks */}
                 <div className="mb-4">
@@ -82,7 +86,7 @@ export function Ranks() {
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-border my-4" />
+                <div className="border-t border-border my-4 group-hover:border-primary/50 transition-colors" />
 
                 {/* Rewards */}
                 <div className="mb-6">
@@ -90,13 +94,17 @@ export function Ranks() {
                     {t('ranks.alsoGet')}
                   </p>
                   <div className="flex items-start gap-2">
-                    <GoldStarIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <GoldStarIcon className="w-5 h-5 flex-shrink-0 mt-0.5 group-hover:animate-spin-slow" />
                     <p className="text-sm">{t(`ranksData.${rank.key}.reward`)}</p>
                   </div>
                 </div>
 
                 {/* Buy Button */}
-                <button className={`w-full py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${rank.bgClass}`}>
+                <button 
+                  onClick={() => playSound('anvil')}
+                  onMouseEnter={() => playSound('hover')}
+                  className={`w-full py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${rank.bgClass} group-hover:animate-glow-pulse`}
+                >
                   {t('ranks.buyNow')}
                 </button>
               </div>

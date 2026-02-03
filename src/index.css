@@ -150,9 +150,20 @@
   
   .gradient-text {
     background: var(--gradient-text);
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+  
+  .shimmer-bg {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.1) 0%,
+      hsl(var(--primary) / 0.4) 50%,
+      hsl(var(--primary) / 0.1) 100%
+    );
+    background-size: 200% 100%;
   }
   
   .glow-green {
