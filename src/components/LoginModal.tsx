@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToastContext } from '@/contexts/ToastContext';
+import { lovable } from '@/integrations/lovable';
 import logo from '@/assets/logo.png';
 import {
   CloseIcon,
@@ -9,6 +10,7 @@ import {
   CoffeeIcon,
   KeyIcon,
   SmartphoneIcon,
+  GoogleIcon,
 } from '@/components/icons';
 
 interface LoginModalProps {
@@ -33,6 +35,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [accountType, setAccountType] = useState('autoDetect');
   const [skinUrl, setSkinUrl] = useState('https://mc-heads.net/avatar/Steve/100');
   const [error, setError] = useState('');
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   // Debounced skin update
   const updateSkin = useCallback((name: string) => {
@@ -70,6 +73,23 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
       setAccountType('autoDetect');
     } else if (result.error === 'wrongPassword') {
       setError(t('login.wrongPassword'));
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    setError('');
+    try {
+      const result = await lovable.auth.signInWithOAuth('google', {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) {
+        setError(result.error.message);
+      }
+    } catch (err) {
+      setError('Google sign-in failed');
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
@@ -174,6 +194,24 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="w-full btn-primary"
           >
             {t('login.loginButton')}
+          </button>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-2">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">{t('login.orContinueWith')}</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          {/* Google Sign In */}
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={isGoogleLoading}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors disabled:opacity-50"
+          >
+            <GoogleIcon className="w-5 h-5" />
+            <span>{t('login.googleSignIn')}</span>
           </button>
 
           {/* Back Link */}
