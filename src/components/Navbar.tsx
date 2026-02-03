@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -28,10 +28,10 @@ interface SupabaseUser {
 
 export function Navbar({ onLoginClick }: NavbarProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const { user: localUser, logout: localLogout, isLoggedIn: isLocalLoggedIn } = useAuth();
-  const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -79,30 +79,12 @@ export function Navbar({ onLoginClick }: NavbarProps) {
   const isLoggedIn = isLocalLoggedIn || isSupabaseLoggedIn;
 
   const navLinks = [
-    { id: 'home', label: t('nav.home') },
-    { id: 'ranks', label: t('nav.ranks') },
-    { id: 'keys', label: t('nav.keys') },
-    { id: 'contact', label: t('nav.contact') },
+    { path: '/', label: t('nav.home') },
+    { path: '/ranks', label: t('nav.ranks') },
+    { path: '/keys', label: t('nav.keys') },
+    { path: '/mods', label: t('nav.mods') },
+    { path: '/contact', label: t('nav.contact') },
   ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['home', 'ranks', 'keys', 'contact'];
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -115,37 +97,29 @@ export function Navbar({ onLoginClick }: NavbarProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setMobileMenuOpen(false);
-  };
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-navbar">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="Core CMS" className="w-10 h-10 object-contain" />
             <div>
               <h1 className="font-bold text-lg leading-tight">Core CMS</h1>
               <p className="text-xs text-muted-foreground">{t('nav.premiumShop')}</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map(link => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
               >
                 {link.label}
-              </button>
+              </Link>
             ))}
           </div>
 
@@ -299,18 +273,19 @@ export function Navbar({ onLoginClick }: NavbarProps) {
           <div className="md:hidden mt-4 pb-4 animate-fade-in">
             <div className="flex flex-col gap-2">
               {navLinks.map(link => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className={`nav-link text-start ${activeSection === link.id ? 'active' : ''}`}
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`nav-link text-start ${location.pathname === link.path ? 'active' : ''}`}
                 >
                   {link.label}
-                </button>
+                </Link>
               ))}
               {!isLoggedIn && (
                 <button
                   onClick={() => {
-                    onLoginClick();
+                    onLoginClick?.();
                     setMobileMenuOpen(false);
                   }}
                   className="mt-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
