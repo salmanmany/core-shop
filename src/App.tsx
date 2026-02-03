@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ToastProvider } from '@/contexts/ToastContext';
+import { CartProvider } from '@/contexts/CartContext';
 import { ToastContainer } from '@/components/ToastContainer';
 import Index from "./pages/Index";
 import Profile from "./pages/Profile";
@@ -10,6 +11,7 @@ import RanksPage from "./pages/RanksPage";
 import KeysPage from "./pages/KeysPage";
 import ContactPage from "./pages/ContactPage";
 import ModsPage from "./pages/ModsPage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -17,18 +19,21 @@ const App = () => (
     <LanguageProvider>
       <AuthProvider>
         <ToastProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/ranks" element={<RanksPage />} />
-              <Route path="/keys" element={<KeysPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/mods" element={<ModsPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-          <ToastContainer />
+          <CartProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/ranks" element={<RanksPage />} />
+                <Route path="/keys" element={<KeysPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/mods" element={<ModsPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+            <ToastContainer />
+          </CartProvider>
         </ToastProvider>
       </AuthProvider>
     </LanguageProvider>
