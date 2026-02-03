@@ -136,6 +136,26 @@ export const translations = {
     orContinueWith: { ar: 'أو تابع باستخدام', en: 'Or continue with' },
     googleSignIn: { ar: 'تسجيل الدخول بـ Google', en: 'Sign in with Google' },
   },
+
+  // Profile Page
+  profile: {
+    title: { ar: 'الملف الشخصي', en: 'My Profile' },
+    subtitle: { ar: 'إدارة معلومات حسابك', en: 'Manage your account information' },
+    email: { ar: 'البريد الإلكتروني', en: 'Email' },
+    displayName: { ar: 'اسم العرض', en: 'Display Name' },
+    displayNamePlaceholder: { ar: 'أدخل اسمك', en: 'Enter your name' },
+    minecraftUsername: { ar: 'اسم مستخدم Minecraft', en: 'Minecraft Username' },
+    minecraftUsernamePlaceholder: { ar: 'مثال: King_Salman1', en: 'Example: King_Salman1' },
+    minecraftUsernameHint: { ar: 'سيتم تحديث صورتك تلقائياً بناءً على سكن Minecraft', en: 'Your avatar will update automatically based on your Minecraft skin' },
+    memberSince: { ar: 'عضو منذ', en: 'Member Since' },
+    saveButton: { ar: 'حفظ التغييرات', en: 'Save Changes' },
+    saving: { ar: 'جارِ الحفظ...', en: 'Saving...' },
+    saved: { ar: 'تم حفظ التغييرات بنجاح', en: 'Changes saved successfully' },
+    logoutButton: { ar: 'تسجيل الخروج', en: 'Logout' },
+    backToStore: { ar: 'العودة للمتجر', en: 'Back to Store' },
+    errorLoading: { ar: 'خطأ في تحميل الملف الشخصي', en: 'Error loading profile' },
+    errorSaving: { ar: 'خطأ في حفظ التغييرات', en: 'Error saving changes' },
+  },
   
   // Ranks Data
   ranksData: {
