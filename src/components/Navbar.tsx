@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSound } from '@/hooks/useSound';
 import { supabase } from '@/integrations/supabase/client';
 import logo from '@/assets/logo.png';
 import {
@@ -32,6 +33,7 @@ export function Navbar({ onLoginClick }: NavbarProps) {
   const { t, language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const { user: localUser, logout: localLogout, isLoggedIn: isLocalLoggedIn } = useAuth();
+  const { playSound } = useSound();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -124,10 +126,14 @@ export function Navbar({ onLoginClick }: NavbarProps) {
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {/* Theme Toggle */}
             <button
-              onClick={toggleTheme}
+              onClick={() => {
+                playSound('pop');
+                toggleTheme();
+              }}
+              onMouseEnter={() => playSound('hover')}
               className="p-2 rounded-lg hover:bg-secondary transition-colors"
               aria-label="Toggle theme"
             >
@@ -140,8 +146,12 @@ export function Navbar({ onLoginClick }: NavbarProps) {
 
             {/* Language Toggle */}
             <button
-              onClick={toggleLanguage}
-              className="p-1 rounded-lg hover:bg-secondary transition-colors"
+              onClick={() => {
+                playSound('pop');
+                toggleLanguage();
+              }}
+              onMouseEnter={() => playSound('hover')}
+              className="p-1.5 rounded-lg hover:bg-secondary transition-colors"
               aria-label="Toggle language"
             >
               <img
@@ -155,7 +165,11 @@ export function Navbar({ onLoginClick }: NavbarProps) {
             </button>
 
             {/* Cart */}
-            <button className="p-2 rounded-lg hover:bg-secondary transition-colors relative">
+            <button 
+              onClick={() => playSound('click')}
+              onMouseEnter={() => playSound('hover')}
+              className="p-2 rounded-lg hover:bg-secondary transition-colors relative"
+            >
               <CartIcon className="w-5 h-5" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-semibold">
                 0
@@ -166,7 +180,11 @@ export function Navbar({ onLoginClick }: NavbarProps) {
             {isLoggedIn ? (
               <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  onClick={() => {
+                    playSound('click');
+                    setUserDropdownOpen(!userDropdownOpen);
+                  }}
+                  onMouseEnter={() => playSound('hover')}
                   className="flex items-center gap-2 p-1 rounded-lg hover:bg-secondary transition-colors"
                 >
                   <img
@@ -218,9 +236,11 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                       {isSupabaseLoggedIn && (
                         <button
                           onClick={() => {
+                            playSound('click');
                             navigate('/profile');
                             setUserDropdownOpen(false);
                           }}
+                          onMouseEnter={() => playSound('hover')}
                           className="w-full p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-center"
                         >
                           {t('profile.title')}
@@ -229,6 +249,7 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                       
                       <button
                         onClick={async () => {
+                          playSound('click');
                           if (isSupabaseLoggedIn) {
                             await supabase.auth.signOut();
                           } else {
@@ -236,6 +257,7 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                           }
                           setUserDropdownOpen(false);
                         }}
+                        onMouseEnter={() => playSound('hover')}
                         className="w-full flex items-center justify-center gap-2 p-2 rounded-lg bg-destructive/20 text-destructive hover:bg-destructive/30 transition-colors"
                       >
                         <LogoutIcon className="w-4 h-4" />
@@ -247,7 +269,11 @@ export function Navbar({ onLoginClick }: NavbarProps) {
               </div>
             ) : (
               <button
-                onClick={onLoginClick}
+                onClick={() => {
+                  playSound('click');
+                  onLoginClick?.();
+                }}
+                onMouseEnter={() => playSound('hover')}
                 className="hidden sm:block px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
               >
                 {t('nav.login')}
@@ -256,7 +282,10 @@ export function Navbar({ onLoginClick }: NavbarProps) {
 
             {/* Mobile Menu Button */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                playSound('click');
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
               className="md:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
             >
               {mobileMenuOpen ? (
@@ -276,7 +305,10 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    playSound('click');
+                    setMobileMenuOpen(false);
+                  }}
                   className={`nav-link text-start ${location.pathname === link.path ? 'active' : ''}`}
                 >
                   {link.label}
@@ -285,6 +317,7 @@ export function Navbar({ onLoginClick }: NavbarProps) {
               {!isLoggedIn && (
                 <button
                   onClick={() => {
+                    playSound('click');
                     onLoginClick?.();
                     setMobileMenuOpen(false);
                   }}

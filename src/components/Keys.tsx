@@ -1,4 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSound } from '@/hooks/useSound';
 import { KeyIcon } from '@/components/icons';
 
 const keysConfig = [
@@ -10,6 +11,7 @@ const keysConfig = [
 
 export function Keys() {
   const { t, language } = useLanguage();
+  const { playSound } = useSound();
 
   return (
     <section id="keys" className="py-20">
@@ -25,7 +27,7 @@ export function Keys() {
         </div>
 
         {/* Keys Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {keysConfig.map(keyItem => (
             <div key={keyItem.key} className="key-card">
               {/* Rarity Badge */}
@@ -59,33 +61,15 @@ export function Keys() {
               </p>
 
               {/* Buy Button */}
-              <button className={`w-full py-2.5 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${keyItem.bgClass}`}>
+              <button 
+                onClick={() => playSound('click')}
+                onMouseEnter={() => playSound('hover')}
+                className={`w-full py-2.5 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg ${keyItem.bgClass}`}
+              >
                 {t('ranks.buyNow')}
               </button>
             </div>
           ))}
-        </div>
-
-        {/* Payment Methods */}
-        <div className="glass-card p-6 text-center">
-          <p className="text-muted-foreground mb-4">{t('keys.paymentMethods')}</p>
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
-              alt="PayPal"
-              className="h-8 object-contain"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
-              alt="Visa"
-              className="h-8 object-contain"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-              alt="Mastercard"
-              className="h-8 object-contain"
-            />
-          </div>
         </div>
       </div>
     </section>
