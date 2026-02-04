@@ -12,6 +12,7 @@ import KeysPage from "./pages/KeysPage";
 import ContactPage from "./pages/ContactPage";
 import ModsPage from "./pages/ModsPage";
 import AdminPage from "./pages/AdminPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -29,6 +30,7 @@ const App = () => (
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/mods" element={<ModsPage />} />
                 <Route path="/admin" element={<AdminPage />} />
+                <Route path="/payment-success" element={<PaymentSuccessPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
