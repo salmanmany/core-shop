@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { useSound } from '@/hooks/useSound';
-import { CloseIcon, TrashIcon, MinusIcon, PlusIcon } from '@/components/icons';
+import { CloseIcon, TrashIcon, MinusIcon, PlusIcon, ShieldIcon, KeyIcon } from '@/components/icons';
+import { supabase } from '@/integrations/supabase/client';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,6 +14,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { t, language } = useLanguage();
   const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
   const { playSound } = useSound();
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -30,9 +33,36 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     clearCart();
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
+    if (items.length === 0) return;
+    
+    setIsLoading(true);
     playSound('levelUp');
-    // TODO: Implement checkout
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          items: items.map(item => ({
+            id: item.id,
+            name: language === 'ar' ? item.nameAr : item.name,
+            price: item.price,
+            quantity: item.quantity,
+            type: item.type,
+          })),
+        },
+      });
+
+      if (error) throw error;
+      
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      playSound('error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -51,7 +81,8 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-xl font-bold flex items-center gap-2">
-            🛒 {t('cart.title')}
+            <ShieldIcon className="w-5 h-5 text-primary" />
+            {t('cart.title')}
             {totalItems > 0 && (
               <span className="px-2 py-0.5 rounded-full text-xs bg-primary text-primary-foreground">
                 {totalItems}
@@ -73,7 +104,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ maxHeight: 'calc(100vh - 200px)' }}>
           {items.length === 0 ? (
             <div className="text-center py-12 animate-bounce-in">
-              <p className="text-4xl mb-4">🛒</p>
+              <ShieldIcon className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground">{t('cart.empty')}</p>
             </div>
           ) : (
@@ -85,7 +116,11 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               >
                 {/* Item Icon */}
                 <div className={`w-12 h-12 rounded-lg ${item.colorClass.replace('text-', 'bg-')}/20 flex items-center justify-center`}>
-                  <span className="text-2xl">{item.type === 'rank' ? '🛡️' : '🔑'}</span>
+                  {item.type === 'rank' ? (
+                    <ShieldIcon className={`w-6 h-6 ${item.colorClass}`} />
+                  ) : (
+                    <KeyIcon className={`w-6 h-6 ${item.colorClass}`} />
+                  )}
                 </div>
                 
                 {/* Item Details */}
@@ -146,9 +181,13 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <button
                 onClick={handleCheckout}
                 onMouseEnter={() => playSound('hover')}
-                className="flex-1 py-2.5 rounded-xl font-semibold bg-primary text-primary-foreground hover:scale-105 transition-all animate-glow-pulse"
+                disabled={isLoading}
+                className="flex-1 py-2.5 rounded-xl font-semibold bg-primary text-primary-foreground hover:scale-105 transition-all animate-glow-pulse disabled:opacity-50 disabled:animate-none"
               >
-                {t('cart.checkout')}
+                {isLoading 
+                  ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
+                  : t('cart.checkout')
+                }
               </button>
             </div>
           </div>

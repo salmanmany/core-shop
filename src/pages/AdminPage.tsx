@@ -17,6 +17,9 @@ import {
   TrashIcon,
   PlusIcon,
   SaveIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  SettingsIcon,
 } from '@/components/icons';
 
 interface Rank {
@@ -275,8 +278,9 @@ const AdminPage = () => {
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-8 animate-fade-in-down">
-            <h1 className="text-3xl font-bold mb-2">
-              ⚙️ {t('admin.title')}
+            <h1 className="text-3xl font-bold mb-2 flex items-center justify-center gap-3">
+              <SettingsIcon className="w-8 h-8 text-primary" />
+              {t('admin.title')}
             </h1>
           </div>
 
@@ -364,7 +368,14 @@ const AdminPage = () => {
                         </div>
                         <div>
                           <p className={`font-bold ${rank.color_class}`}>{language === 'ar' ? rank.name_ar : rank.name_en}</p>
-                          <p className="text-sm text-muted-foreground">${rank.price} • {rank.is_active ? '✅' : '❌'}</p>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span>${rank.price}</span>
+                            {rank.is_active ? (
+                              <CheckCircleIcon className="w-4 h-4 text-primary" />
+                            ) : (
+                              <XCircleIcon className="w-4 h-4 text-destructive" />
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="flex gap-2">
@@ -419,7 +430,14 @@ const AdminPage = () => {
                         </div>
                         <div>
                           <p className={`font-bold ${key.color_class}`}>{language === 'ar' ? key.name_ar : key.name_en}</p>
-                          <p className="text-sm text-muted-foreground">${key.price} • {key.is_active ? '✅' : '❌'}</p>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span>${key.price}</span>
+                            {key.is_active ? (
+                              <CheckCircleIcon className="w-4 h-4 text-primary" />
+                            ) : (
+                              <XCircleIcon className="w-4 h-4 text-destructive" />
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="flex gap-2">
@@ -472,7 +490,15 @@ const AdminPage = () => {
                         </div>
                         <div>
                           <p className="font-bold">{language === 'ar' ? mod.name_ar : mod.name_en}</p>
-                          <p className="text-sm text-muted-foreground">v{mod.version} • MC {mod.minecraft_version} • {mod.is_active ? '✅' : '❌'}</p>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span>v{mod.version}</span>
+                            <span>MC {mod.minecraft_version}</span>
+                            {mod.is_active ? (
+                              <CheckCircleIcon className="w-4 h-4 text-primary" />
+                            ) : (
+                              <XCircleIcon className="w-4 h-4 text-destructive" />
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="flex gap-2">
