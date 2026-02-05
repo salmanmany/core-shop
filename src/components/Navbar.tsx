@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useSound } from '@/hooks/useSound';
 import { useAdmin } from '@/hooks/useAdmin';
+ import { useSeller } from '@/hooks/useSeller';
 import { supabase } from '@/integrations/supabase/client';
 import logo from '@/assets/logo.png';
 import { CartDrawer } from '@/components/CartDrawer';
@@ -18,6 +19,7 @@ import {
   ChevronDownIcon,
   LogoutIcon,
   SettingsIcon,
+   StoreIcon,
 } from '@/components/icons';
 
 interface NavbarProps {
@@ -40,6 +42,7 @@ export function Navbar({ onLoginClick }: NavbarProps) {
   const { totalItems } = useCart();
   const { playSound } = useSound();
   const { isAdmin } = useAdmin();
+   const { isSeller } = useSeller();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -89,6 +92,7 @@ export function Navbar({ onLoginClick }: NavbarProps) {
 
   const navLinks = [
     { path: '/', label: t('nav.home') },
+     { path: '/discover', label: t('nav.discover') },
     { path: '/ranks', label: t('nav.ranks') },
     { path: '/keys', label: t('nav.keys') },
     { path: '/mods', label: t('nav.mods') },
@@ -278,6 +282,22 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                           </button>
                         )}
 
+                         {/* Seller Dashboard Link */}
+                         {isSeller && (
+                           <button
+                             onClick={() => {
+                               playSound('click');
+                               navigate('/seller');
+                               setUserDropdownOpen(false);
+                             }}
+                             onMouseEnter={() => playSound('hover')}
+                             className="w-full p-2 rounded-lg bg-secondary hover:bg-primary/20 hover:text-primary transition-colors text-center flex items-center justify-center gap-2"
+                           >
+                             <StoreIcon className="w-4 h-4" />
+                             {t('nav.seller')}
+                           </button>
+                         )}
+ 
                         {/* Admin Link */}
                         {isAdmin && (
                           <button
@@ -374,6 +394,19 @@ export function Navbar({ onLoginClick }: NavbarProps) {
                     {t('nav.admin')}
                   </Link>
                 )}
+                 {isSeller && (
+                   <Link
+                     to="/seller"
+                     onClick={() => {
+                       playSound('click');
+                       setMobileMenuOpen(false);
+                     }}
+                     className="nav-link text-start hover:text-primary hover:bg-primary/10 flex items-center gap-2"
+                   >
+                     <StoreIcon className="w-4 h-4" />
+                     {t('nav.seller')}
+                   </Link>
+                 )}
                 {!isLoggedIn && (
                   <button
                     onClick={() => {

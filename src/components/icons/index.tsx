@@ -266,3 +266,70 @@ export const CrownIcon = ({ className }: { className?: string }) => (
     <path d="M5 21h14"/>
   </svg>
 );
+ 
+ export const StoreIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+     <polyline points="9 22 9 12 15 12 15 22"/>
+   </svg>
+ );
+ 
+ export const ClipboardIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+     <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+   </svg>
+ );
+ 
+ export const EyeIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+     <circle cx="12" cy="12" r="3"/>
+   </svg>
+ );
+ 
+ export const EyeOffIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+     <line x1="1" y1="1" x2="23" y2="23"/>
+   </svg>
+ );
+ 
+ export const RefreshIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <polyline points="23 4 23 10 17 10"/>
+     <polyline points="1 20 1 14 7 14"/>
+     <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+   </svg>
+ );
+ 
+ export const BarChartIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <line x1="12" x2="12" y1="20" y2="10"/>
+     <line x1="18" x2="18" y1="20" y2="4"/>
+     <line x1="6" x2="6" y1="20" y2="16"/>
+   </svg>
+ );
+ 
+ export const DollarSignIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <line x1="12" x2="12" y1="2" y2="22"/>
+     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+   </svg>
+ );
+ 
+ export const ServerIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <rect width="20" height="8" x="2" y="2" rx="2" ry="2"/>
+     <rect width="20" height="8" x="2" y="14" rx="2" ry="2"/>
+     <line x1="6" x2="6.01" y1="6" y2="6"/>
+     <line x1="6" x2="6.01" y1="18" y2="18"/>
+   </svg>
+ );
+ 
+ export const LinkIcon = ({ className }: { className?: string }) => (
+   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+   </svg>
+ );

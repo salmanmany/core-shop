@@ -119,6 +119,101 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          quantity?: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "store_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          buyer_email: string
+          buyer_id: string | null
+          buyer_minecraft_username: string | null
+          created_at: string
+          currency: string
+          id: string
+          status: string
+          store_id: string
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          buyer_email: string
+          buyer_id?: string | null
+          buyer_minecraft_username?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          status?: string
+          store_id: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          total_amount: number
+          updated_at?: string
+        }
+        Update: {
+          buyer_email?: string
+          buyer_id?: string | null
+          buyer_minecraft_username?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          status?: string
+          store_id?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -209,6 +304,179 @@ export type Database = {
         }
         Relationships: []
       }
+      store_categories: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          sort_order: number
+          store_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar: string
+          name_en: string
+          sort_order?: number
+          store_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          sort_order?: number
+          store_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "store_categories_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      store_products: {
+        Row: {
+          bg_class: string
+          border_class: string
+          category_id: string | null
+          color_class: string
+          commands: string[] | null
+          created_at: string
+          desc_ar: string
+          desc_en: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          price: number
+          product_type: string
+          sort_order: number
+          store_id: string
+          stripe_price_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          bg_class?: string
+          border_class?: string
+          category_id?: string | null
+          color_class?: string
+          commands?: string[] | null
+          created_at?: string
+          desc_ar: string
+          desc_en: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar: string
+          name_en: string
+          price: number
+          product_type: string
+          sort_order?: number
+          store_id: string
+          stripe_price_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bg_class?: string
+          border_class?: string
+          category_id?: string | null
+          color_class?: string
+          commands?: string[] | null
+          created_at?: string
+          desc_ar?: string
+          desc_en?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          price?: number
+          product_type?: string
+          sort_order?: number
+          store_id?: string
+          stripe_price_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "store_products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "store_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "store_products_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stores: {
+        Row: {
+          api_key: string | null
+          created_at: string
+          description: string | null
+          discord_url: string | null
+          id: string
+          is_featured: boolean
+          logo_url: string | null
+          name: string
+          owner_id: string
+          server_ip: string | null
+          slug: string
+          status: Database["public"]["Enums"]["store_status"]
+          theme: Database["public"]["Enums"]["store_theme"]
+          updated_at: string
+        }
+        Insert: {
+          api_key?: string | null
+          created_at?: string
+          description?: string | null
+          discord_url?: string | null
+          id?: string
+          is_featured?: boolean
+          logo_url?: string | null
+          name: string
+          owner_id: string
+          server_ip?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["store_status"]
+          theme?: Database["public"]["Enums"]["store_theme"]
+          updated_at?: string
+        }
+        Update: {
+          api_key?: string | null
+          created_at?: string
+          description?: string | null
+          discord_url?: string | null
+          id?: string
+          is_featured?: boolean
+          logo_url?: string | null
+          name?: string
+          owner_id?: string
+          server_ip?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["store_status"]
+          theme?: Database["public"]["Enums"]["store_theme"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -246,6 +514,18 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user" | "seller"
+      store_status: "pending" | "approved" | "suspended"
+      store_theme:
+        | "minecraft_classic"
+        | "nether_dark"
+        | "end_purple"
+        | "ocean_blue"
+        | "forest_green"
+        | "desert_gold"
+        | "ice_frost"
+        | "redstone_red"
+        | "diamond_cyan"
+        | "emerald_green"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -374,6 +654,19 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user", "seller"],
+      store_status: ["pending", "approved", "suspended"],
+      store_theme: [
+        "minecraft_classic",
+        "nether_dark",
+        "end_purple",
+        "ocean_blue",
+        "forest_green",
+        "desert_gold",
+        "ice_frost",
+        "redstone_red",
+        "diamond_cyan",
+        "emerald_green",
+      ],
     },
   },
 } as const
