@@ -14,6 +14,10 @@ import ModsPage from "./pages/ModsPage";
 import AdminPage from "./pages/AdminPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import NotFound from "./pages/NotFound";
+ import DiscoveryPage from "./pages/DiscoveryPage";
+ import StorePage from "./pages/StorePage";
+ import SellerDashboard from "./pages/SellerDashboard";
+ import SellerRegister from "./pages/SellerRegister";
 
 const App = () => (
   <ThemeProvider>
@@ -24,6 +28,10 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
+                 <Route path="/discover" element={<DiscoveryPage />} />
+                 <Route path="/store/:slug" element={<StorePage />} />
+                 <Route path="/seller" element={<SellerDashboard />} />
+                 <Route path="/seller/register" element={<SellerRegister />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/ranks" element={<RanksPage />} />
                 <Route path="/keys" element={<KeysPage />} />

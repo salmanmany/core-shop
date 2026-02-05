@@ -12,6 +12,8 @@ export const translations = {
     logout: { ar: 'تسجيل الخروج', en: 'Logout' },
     premiumShop: { ar: 'متجر فاخر', en: 'Premium Shop' },
     admin: { ar: 'لوحة التحكم', en: 'Admin' },
+     discover: { ar: 'اكتشف المتاجر', en: 'Discover' },
+     seller: { ar: 'لوحة البائع', en: 'Seller Dashboard' },
   },
 
   // Cart
