@@ -304,6 +304,45 @@ export type Database = {
         }
         Relationships: []
       }
+      seller_applications: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          discord_url: string | null
+          id: string
+          reason: string
+          server_ip: string
+          server_name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          discord_url?: string | null
+          id?: string
+          reason: string
+          server_ip: string
+          server_name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          discord_url?: string | null
+          id?: string
+          reason?: string
+          server_ip?: string
+          server_name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       store_categories: {
         Row: {
           created_at: string
