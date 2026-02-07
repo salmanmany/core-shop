@@ -1,1 +1,10 @@
 project_id = "gcrketviqyiikwsfwafa"
+
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.notify-seller-application]
+verify_jwt = false
+
+[functions.handle-seller-decision]
+verify_jwt = false
